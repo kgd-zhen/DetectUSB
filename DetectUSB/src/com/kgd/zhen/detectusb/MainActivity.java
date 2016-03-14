@@ -39,30 +39,6 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public class DetactUSB extends BroadcastReceiver {
-		 private static final String TAG = "DetectUSB"; 
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equalsIgnoreCase( "android.intent.action.UMS_CONNECTED")) {
-				 showToast("android.intent.action.UMS_CONNECTED");
-			}
-			 
-			if (intent.getAction().equalsIgnoreCase( "android.intent.action.UMS_DISCONNECTED")) {
-				TextView textView = new TextView(context); 
-                textView.setBackgroundColor(Color.MAGENTA); 
-                textView.setTextColor(Color.BLUE); 
-                textView.setPadding(10,10,10,10); 
-                textView.setText("USB Disconnected¡­¡­¡­."); 
-                Toast toastView = new Toast(context); 
-                toastView.setDuration(Toast.LENGTH_LONG); 
-                toastView.setGravity(Gravity.CENTER, 0,0); 
-                toastView.setView(textView); 
-                toastView.show(); 
-			}
-		}
-		
-	}
-	
 	public void showToast(String text) {
 		Toast.makeText(this, text, Toast.LENGTH_LONG).show();
 	}

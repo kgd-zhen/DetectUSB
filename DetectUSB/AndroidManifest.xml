@@ -24,7 +24,14 @@
         </activity>
 		<receiver android:name=".DetectUSB"> 
 			<intent-filter> 
-				<action android:name="android.intent.action.UMS_CONNECTED" /> 
+			    <!-- USB 设备插入 -->
+			    <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/>
+			    <!-- USB 设备拔出 -->
+			    <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED"/>
+			        
+				<!-- UMS_CONNECTED 表示  设备进入 USB 大容量存储模式-->
+				<action android:name="android.intent.action.UMS_CONNECTED" />
+				<!-- UMS_CONNECTED 表示  设备从 USB 大容量存储模式退出--> 
 				<action android:name="android.intent.action.UMS_DISCONNECTED" /> 
 			</intent-filter> 
 		</receiver>
