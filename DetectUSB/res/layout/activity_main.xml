@@ -9,8 +9,11 @@
     tools:context="com.kgd.zhen.detectusb.MainActivity" >
 
     <TextView
+        android:id="@+id/tv_usb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:maxLines="5"
+        android:editable="false"
+        android:textSize="18sp" />
 
 </RelativeLayout>

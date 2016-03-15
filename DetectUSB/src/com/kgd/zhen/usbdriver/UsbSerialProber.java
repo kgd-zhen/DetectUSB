@@ -36,8 +36,8 @@ import java.util.List;
  */
 public class UsbSerialProber {
 
-    private final ProbeTable mProbeTable;
-
+//    private final ProbeTable mProbeTable;
+    public ProbeTable mProbeTable;
     public UsbSerialProber(ProbeTable probeTable) {
         mProbeTable = probeTable;
     }

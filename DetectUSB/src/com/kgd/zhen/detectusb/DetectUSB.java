@@ -3,6 +3,7 @@ package com.kgd.zhen.detectusb;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,9 +20,12 @@ public class DetectUSB extends BroadcastReceiver {
 	 
 	private static final String PLUG_IN = "android.hardware.usb.action.USB_DEVICE_ATTACHED";
 	private static final String PLUG_OUT = "android.hardware.usb.action.USB_DEVICE_DETACHED";
-	 
+	
+	private Context mContext;
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		this.mContext = context;
 		if (intent.getAction().equalsIgnoreCase(PLUG_IN)) {
 			 System.out.println("android.hardware.usb.action.USB_DEVICE_ATTACHED");
 			 checkUsbDeviceInfo();
