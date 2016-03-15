@@ -1,7 +1,10 @@
 package com.kgd.zhen.detectusb;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.kgd.zhen.usbdriver.UsbSerialDriver;
 import com.kgd.zhen.usbdriver.UsbSerialPort;
@@ -12,6 +15,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.usb.UsbAccessory;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
@@ -199,6 +203,7 @@ public class MainActivity extends Activity {
 			switch (msg.what) {
 			case MESSAGE_REFRESH:
 				refreshDeviceList();
+				checkUsbDeviceInfo();
 				if (mEntries.size() < 1)
 					mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH, REFRESH_TIMEOUT_MILLIS);
 				break;
@@ -208,5 +213,71 @@ public class MainActivity extends Activity {
 			}
 		}
 	};
+
+	// UsbManager.getDeviceList()
+	public void checkUsbDeviceInfo() {
+		HashMap<String, UsbDevice> usbMap = mUsbManager.getDeviceList();
+		
+		Set<String> set =  usbMap.keySet();
+		Iterator it = set.iterator(); 
+		System.out.println("---checkUsbDeviceInfo---");
+		while (it.hasNext()){
+			UsbDevice device = usbMap.get(it.next());
+			if(device.getDeviceClass() == 0 && device.getVendorId() != 2362){
+				System.out.println(device.toString());
+				String content = "kgd.zhen@gmail.com";
+				posPrintln2(device,content.getBytes());
+			}
+		}
+		System.out.println("---checkUsbDeviceInfo-----end--");
+		UsbAccessory[] usbA = mUsbManager.getAccessoryList();
+		
+		System.out.println("checkUsbDeviceInfo");
+	}
 	
+	public void posPrintln2(UsbDevice device, byte[] println) {
+
+		try {
+
+			UsbManager usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
+			// 权限
+			if (!usbManager.hasPermission(device)) {
+				usbManager.requestPermission(device, localPendingIntent);
+			}
+			if (connection == null)
+				connection = usbManager.openDevice(device);
+			if (interf == null)
+				interf = device.getInterface(0);
+			int k = interf.getEndpointCount();
+			for (int m = 0; m < k; m++) {
+
+				UsbEndpoint localUsbEndpoint = interf.getEndpoint(m);
+				System.out.println("localUsbEndpoint.getDirection()" + localUsbEndpoint.getDirection());
+				if (localUsbEndpoint.getDirection() == 0) {
+					end_out = localUsbEndpoint;
+					break;
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH, REFRESH_TIMEOUT_MILLIS);
+		}
+
+		if (end_out != null) {
+			try {
+				connection.claimInterface(interf, true);
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH, REFRESH_TIMEOUT_MILLIS);
+			}
+			int falg;
+			if (println != null && println.length > 0) {
+				falg = connection.bulkTransfer(end_out, println, println.length, 0);
+				if (falg < 0) {
+					System.out.println("打印失败========");
+				}
+			}
+		}
+	}
 }

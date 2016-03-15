@@ -3,7 +3,6 @@ package com.kgd.zhen.detectusb;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,20 +17,23 @@ import android.widget.Toast;
 public class DetectUSB extends BroadcastReceiver {
 	private static final String TAG = "DetectUSB"; 
 	 
-	private static final String PLUG_IN = "android.hardware.usb.action.USB_DEVICE_ATTACHED";
-	private static final String PLUG_OUT = "android.hardware.usb.action.USB_DEVICE_DETACHED";
+	private static final String PLUG_HOST_IN = "android.hardware.usb.action.USB_DEVICE_ATTACHED";
+	private static final String PLUG_HOST_OUT = "android.hardware.usb.action.USB_DEVICE_DETACHED";
+	
+	private static final String PLUG_ACCESSORY_IN = "android.hardware.usb.action.USB_ACCESSORY_ATTACHED";
+	private static final String PLUG_ACCESSORY_OUT = "android.hardware.usb.action.USB_ACCESSORY_DETACHED";
 	
 	private Context mContext;
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		this.mContext = context;
-		if (intent.getAction().equalsIgnoreCase(PLUG_IN)) {
+		if (intent.getAction().equalsIgnoreCase(PLUG_HOST_IN)) {
 			 System.out.println("android.hardware.usb.action.USB_DEVICE_ATTACHED");
 			 checkUsbDeviceInfo();
 		}
 		 
-		if (intent.getAction().equalsIgnoreCase(PLUG_OUT)) {
+		if (intent.getAction().equalsIgnoreCase(PLUG_HOST_OUT)) {
 			TextView textView = new TextView(context); 
 			textView.setBackgroundColor(Color.MAGENTA); 
 			textView.setTextColor(Color.BLUE); 
@@ -42,6 +44,14 @@ public class DetectUSB extends BroadcastReceiver {
 			toastView.setGravity(Gravity.CENTER, 0,0); 
 			toastView.setView(textView); 
 			toastView.show(); 
+		}
+		
+		if (intent.getAction().equalsIgnoreCase(PLUG_ACCESSORY_IN)) {
+			 System.out.println("PLUG_ACCESSORY_IN");
+		}
+		
+		if (intent.getAction().equalsIgnoreCase(PLUG_ACCESSORY_OUT)) {
+			 System.out.println("PLUG_ACCESSORY_OUT");
 		}
 	}
 

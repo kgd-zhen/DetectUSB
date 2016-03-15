@@ -28,12 +28,17 @@
 			    <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/>
 			    <!-- USB 设备拔出 -->
 			    <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED"/>
+			    <!-- USB 从设备 -->
+				<action android:name="android.hardware.usb.action.USB_ACCESSORY_DETACHED"/>
+				<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"/>
+
+				<!-- 				
+			    <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" 
+			        		android:resource="@xml/device_filter"/>
+			    <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" 
+			        		android:resource="@xml/device_filter"/>
+			     -->
 			     
-			    <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" 
-			        		android:resource="@xml/device_filter"/>
-			    <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" 
-			        		android:resource="@xml/device_filter"/>
-			    
 				<!-- UMS_CONNECTED 表示  设备进入 USB 大容量存储模式-->
 				<action android:name="android.intent.action.UMS_CONNECTED" />
 				<!-- UMS_CONNECTED 表示  设备从 USB 大容量存储模式退出--> 
