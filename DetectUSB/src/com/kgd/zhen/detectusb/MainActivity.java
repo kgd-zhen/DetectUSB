@@ -218,11 +218,10 @@ public class MainActivity extends Activity {
 	public void checkUsbDeviceInfo() {
 		HashMap<String, UsbDevice> usbMap = mUsbManager.getDeviceList();
 		
-		Set<String> set =  usbMap.keySet();
-		Iterator it = set.iterator(); 
+		Iterator<UsbDevice> it = usbMap.values().iterator(); 
 		System.out.println("---checkUsbDeviceInfo---");
 		while (it.hasNext()){
-			UsbDevice device = usbMap.get(it.next());
+			UsbDevice device = it.next();
 			if(device.getDeviceClass() == 0 && device.getVendorId() != 2362){
 				System.out.println(device.toString());
 				String content = "kgd.zhen@gmail.com";
@@ -231,7 +230,6 @@ public class MainActivity extends Activity {
 		}
 		System.out.println("---checkUsbDeviceInfo-----end--");
 		UsbAccessory[] usbA = mUsbManager.getAccessoryList();
-		
 		System.out.println("checkUsbDeviceInfo");
 	}
 	
